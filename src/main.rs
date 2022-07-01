@@ -5,9 +5,18 @@ fn main() {
     let response = ureq::get(&url).call().unwrap().into_string().unwrap();
 
     let document = Html::parse_document(&response);
-    let selector = Selector::parse("a").unwrap();
-    for anchor in document.select(&selector) {
-        let href = anchor.value().attr("href");
-        println!("{:?}", &href);
+    for url in search_img_tags(&document) {
+        println!("{}", url);
     }
+}
+
+fn search_img_tags(document: &Html) -> Vec<&str> {
+    let mut urls = Vec::new();
+    let selector = Selector::parse("img").unwrap();
+    for anchor in document.select(&selector) {
+        if let Some(href) = anchor.value().attr("src") {
+            urls.push(href);
+        }
+    }
+    urls
 }
