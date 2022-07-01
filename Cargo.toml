@@ -1,0 +1,8 @@
+[package]
+name = "tractor"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ureq = "2"
+scraper = "0.13"
