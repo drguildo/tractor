@@ -34,3 +34,17 @@ fn search_anchor_tags(document: &Html) -> Vec<&str> {
     }
     urls
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::search_img_tags;
+
+    #[test]
+    fn img() {
+        let html = r#"<img src="http://www.example.net/example.png" />"#;
+        let document = scraper::Html::parse_document(&html);
+        let urls = search_img_tags(&document);
+        assert!(urls.len() == 1);
+        assert!(*urls.first().unwrap() == "http://www.example.net/example.png");
+    }
+}
